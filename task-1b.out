@@ -1,0 +1,7 @@
+proc 2 sent nums with sum=2889 to 0
+proc 1 sent nums with sum=2531 to 0
+proc 0 received nums with sum=2531 from 1
+proc 0 received nums with sum=2889 from 2
+proc 3 sent nums with sum=2759 to 0
+proc 0 received nums with sum=2759 from 3
+nums with max sum=2889 received from 2

@@ -1,0 +1,6 @@
+proc 2 sent 81 to 0
+proc 3 sent 61 to 0
+proc 1 sent 32 to 0
+proc 0 received 32 from 1
+proc 0 received 81 from 2
+proc 0 received 61 from 3
