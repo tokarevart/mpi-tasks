@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <time.h>
 #include <mpi.h>
 
 int sum_ints(int* nums, int size) {
