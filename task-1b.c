@@ -27,6 +27,7 @@ int main(int argc, char** argv) {
         }
         
         MPI_Send(nums, n, MPI_INT, 0, 0, MPI_COMM_WORLD);
+        free(nums);
         printf("proc %d sent nums with sum=%d to %d\n", rank, sum_ints(nums, n), 0);
 
     } else {
