@@ -110,8 +110,8 @@ int main(int argc, char** argv) {
     double btime2 = task_b_time(rank, size, n);
     double ctime2 = task_c_time(rank, size, n);
     if (rank == 0) {
-        printf("btime1/ctime1: %f\n", btime1 / ctime1);
-        printf("btime2/ctime2: %f\n", btime2 / ctime2);
+        printf("%f\t", btime1 / ctime1); // cold start
+        printf("%f\n", btime2 / ctime2); // hot start
     }
 
     MPI_Finalize();

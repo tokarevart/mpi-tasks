@@ -1,12 +1,11 @@
 #!/bin/bash
 mpicc task-1d.c -o task-1d -lm -O3 -std=c11
 
-nproc=16
-n=100
-sbatch -n $nproc -t 1 -p debug --wrap "mpiexec ./task-1d $n"
-n=1000
-sbatch -n $nproc -t 1 -p debug --wrap "mpiexec ./task-1d $n"
-n=10000
-sbatch -n $nproc -t 1 -p debug --wrap "mpiexec ./task-1d $n"
-n=100000
-sbatch -n $nproc -t 1 -p debug --wrap "mpiexec ./task-1d $n"
+nproc=4
+exectask="mpiexec ./task-1d"
+sbatch -n $nproc -t 1 -p debug --wrap "{ \
+    $exectask 100; \
+    $exectask 1000; \
+    $exectask 10000; \
+    $exectask 100000; \
+}"
