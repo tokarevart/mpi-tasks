@@ -55,6 +55,50 @@ struct IntBlock partition(int size, int num_blocks, int block_idx) {
     return res;
 }
 
+double run_task(int comm_rank, int comm_size, int n, int q) {
+    struct IntBlock block = partition(q, comm_size, comm_rank);
+
+    double* means = calloc(block.size, sizeof(double));
+    double* cur_nums = calloc(n, sizeof(double));
+    for (int i = 0; i < block.size; ++i) {
+        fill_with_randoms(cur_nums, n);
+        means[i] = sum_dbls(cur_nums, n) / n;
+    }
+    free(cur_nums);
+
+    if (comm_rank > 0) {
+        MPI_Send(means, block.size, MPI_INT, 0, 0, MPI_COMM_WORLD);
+        free(means);
+        return 0.0;
+
+    } else {
+        double start = MPI_Wtime();
+
+        double* loc_means = means;
+        double* means = calloc(q, sizeof(double));
+        memcpy(means, loc_means, block.size * sizeof(double));
+        free(loc_means);
+
+        double means_mean = 0.0;
+        double* recv_dest = means + block.size;
+        for (int i = 1; i < comm_size; ++i) {
+            struct IntBlock block = partition(q, comm_size, i);
+            MPI_Status status;
+            MPI_Recv(recv_dest, block.size, MPI_INT, i, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+            means_mean += sum_dbls(recv_dest, block.size);
+            recv_dest += block.size;
+        }
+        means_mean /= q;
+
+        double stddev = std_dev(means, means_mean, q);
+
+        double elapsed = MPI_Wtime() - start;
+
+        printf("%f", stddev);
+        return elapsed;
+    }
+}
+
 int main(int argc, char** argv) {
     if (argc < 3) {
         printf("n and q is needed\n");
@@ -73,40 +117,14 @@ int main(int argc, char** argv) {
     }
     comm_size = min(comm_size, q);
     srand(comm_rank);
-
-    struct IntBlock block = partition(q, comm_size, comm_rank);
-
-    double* means = calloc(block.size, sizeof(double));
-    double* cur_nums = calloc(n, sizeof(double));
-    for (int i = 0; i < block.size; ++i) {
-        fill_with_randoms(cur_nums, n);
-        means[i] = sum_dbls(cur_nums, n) / n;
-    }
-    free(cur_nums);
-
-    if (comm_rank > 0) {
-        MPI_Send(means, block.size, MPI_INT, 0, 0, MPI_COMM_WORLD);
-        free(means);
-
-    } else {
-        double* loc_means = means;
-        double* means = calloc(q, sizeof(double));
-        memcpy(means, loc_means, block.size * sizeof(double));
-        free(loc_means);
-
-        double means_mean = 0.0;
-        double* recv_dest = means + block.size;
-        for (int i = 1; i < comm_size; ++i) {
-            struct IntBlock block = partition(q, comm_size, i);
-            MPI_Status status;
-            MPI_Recv(recv_dest, block.size, MPI_INT, i, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
-            means_mean += sum_dbls(recv_dest, block.size);
-            recv_dest += block.size;
+    
+    double min_runtime = __DBL_MAX__;
+    for (int i = 0; i < 1; ++i) {
+        MPI_Barrier(MPI_COMM_WORLD);
+        double elapsed = run_task(comm_rank, comm_size, n, q);
+        if (elapsed < min_runtime) {
+            min_runtime = elapsed;
         }
-        means_mean /= q;
-
-        double stddev = std_dev(means, means_mean, q);
-        printf("%f", stddev);
     }
 
     MPI_Finalize();
