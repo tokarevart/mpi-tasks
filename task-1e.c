@@ -4,14 +4,6 @@
 #include <string.h>
 #include <mpi.h>
 
-double min_dbl(double left, double right) {
-    if (left < right) {
-        return left;
-    } else {
-        return right;
-    }
-}
-
 int min_int(int left, int right) {
     if (left < right) {
         return left;
@@ -106,6 +98,7 @@ TaskRes run_task(int comm_rank, int comm_size, int n, int q) {
         means_mean /= q;
 
         double stddev = std_dev(means, means_mean, q);
+        free(means);
         double elapsed = MPI_Wtime() - start;
         TaskRes res = { stddev, elapsed };
         return res;
