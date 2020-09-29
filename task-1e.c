@@ -31,7 +31,7 @@ double sum_dbls(double* nums, int size) {
     return acc;
 }
 
-double std_dev(double* nums, double mean, int size) {
+double std_dev(double* nums, int size, double mean) {
     double acc = 0.0;
     for (int i = 0; i < size; ++i) {
         double dev = nums[i] - mean;
@@ -46,6 +46,7 @@ typedef struct {
     int size;
 } IntBlock;
 
+// constraint: block_idx < min(size, num_blocks) 
 IntBlock partition(int size, int num_blocks, int block_idx) {
     num_blocks = min_int(num_blocks, size);
     int block_maxsize = (size - 1) / num_blocks + 1;
@@ -97,7 +98,7 @@ TaskRes run_task(int comm_rank, int comm_size, int n, int q) {
         }
         means_mean /= q;
 
-        double stddev = std_dev(means, means_mean, q);
+        double stddev = std_dev(means, q, means_mean);
         free(means);
         double elapsed = MPI_Wtime() - start;
         TaskRes res = { stddev, elapsed };
