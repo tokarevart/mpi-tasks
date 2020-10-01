@@ -11,7 +11,7 @@ int min_int(int left, int right) {
 }
 
 int main(int argc, char** argv) {
-    int n = 3;
+    int n = 7;
     int comm_rank, comm_size;
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &comm_rank);
