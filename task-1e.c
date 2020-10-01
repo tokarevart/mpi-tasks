@@ -46,12 +46,12 @@ typedef struct {
     int size;
 } IntBlock;
 
-// constraint: block_idx < min(size, num_blocks) 
-IntBlock partition(int size, int num_blocks, int block_idx) {
-    num_blocks = min_int(num_blocks, size);
-    int block_maxsize = (size - 1) / num_blocks + 1;
+// constraint: block_idx < min(total, num_blocks) 
+IntBlock partition(int total, int num_blocks, int block_idx) {
+    num_blocks = min_int(num_blocks, total);
+    int block_maxsize = (total - 1) / num_blocks + 1;
     int block_beg = block_idx * block_maxsize;
-    int block_end = min_int(block_beg + block_maxsize, size);
+    int block_end = min_int(block_beg + block_maxsize, total);
     IntBlock res = { block_beg, block_end, block_end - block_beg };
     return res;
 }

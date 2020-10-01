@@ -1,0 +1,8 @@
+proc 0 added 32 to acc=0
+proc 0 sent acc=32 to 1
+proc 1 received acc=32 from 0
+proc 1 added 81 to acc=32
+proc 0 received acc=113 from 1
+proc 0 added 32 to acc=113
+sum=145
+proc 1 sent acc=113 to 0
