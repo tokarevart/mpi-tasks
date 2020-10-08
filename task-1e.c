@@ -75,7 +75,7 @@ TaskRes run_task(int comm_rank, int comm_size, int n, int q) {
     free(cur_nums);
 
     if (comm_rank > 0) {
-        MPI_Send(means, block.size, MPI_INT, 0, 0, MPI_COMM_WORLD);
+        MPI_Send(means, block.size, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
         free(means);
 
         TaskRes res;
@@ -92,7 +92,7 @@ TaskRes run_task(int comm_rank, int comm_size, int n, int q) {
         for (int i = 1; i < comm_size; ++i) {
             IntBlock block = partition(q, comm_size, i);
             MPI_Status status;
-            MPI_Recv(recv_dest, block.size, MPI_INT, i, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+            MPI_Recv(recv_dest, block.size, MPI_DOUBLE, i, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
             means_mean += sum_dbls(recv_dest, block.size);
             recv_dest += block.size;
         }
