@@ -88,13 +88,11 @@ TaskRes run_task(int comm_rank, int comm_size, int n, int q) {
         free(loc_means);
 
         double means_mean = 0.0;
-        double* recv_dest = means + block.size;
         for (int i = 1; i < comm_size; ++i) {
             IntBlock block = partition(q, comm_size, i);
             MPI_Status status;
-            MPI_Recv(recv_dest, block.size, MPI_DOUBLE, i, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
-            means_mean += sum_dbls(recv_dest, block.size);
-            recv_dest += block.size;
+            MPI_Recv(means + block.beg, block.size, MPI_DOUBLE, i, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+            means_mean += sum_dbls(means + block.beg, block.size);
         }
         means_mean /= q;
 

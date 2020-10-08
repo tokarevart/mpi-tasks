@@ -5,7 +5,7 @@ outopt=$1
 if [[ "$outopt" == "runtime" ]]; then
     q=4096
     for nproc in 1 2 4 8 16; do
-        for n in 4 256 16384; do
+        for n in 4; do
             sbatch -n $nproc -t 1 -p debug --wrap "mpiexec ./task-1e $outopt $n $q"
         done
     done
