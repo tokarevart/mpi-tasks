@@ -19,6 +19,9 @@ void run_task(int comm_rank, int comm_size, int m, int n) {
 
         Message msg = { comm_rank, 1, rnd };
         int send_to = rand() % comm_size;
+        while (send_to == comm_rank) {
+            send_to = rand() % comm_size;
+        }
         MPI_Request req;
         MPI_Isend(&msg, sizeof(Message), MPI_BYTE, send_to, 0, MPI_COMM_WORLD, &req);
         MPI_Wait(&req, MPI_STATUS_IGNORE);
@@ -69,6 +72,9 @@ void run_task(int comm_rank, int comm_size, int m, int n) {
         }
 
         int send_to = rand() % comm_size;
+        while (send_to == comm_rank) {
+            send_to = rand() % comm_size;
+        }
         MPI_Isend(&msg, sizeof(Message), MPI_BYTE, send_to, 0, MPI_COMM_WORLD, &req);
         MPI_Wait(&req, MPI_STATUS_IGNORE);
         printf(
@@ -80,7 +86,7 @@ void run_task(int comm_rank, int comm_size, int m, int n) {
 
 int main(int argc, char** argv) {
     int m = 2;
-    int n = 3;
+    int n = 5;
 
     int comm_rank, comm_size;
     MPI_Init(&argc, &argv);
