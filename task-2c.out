@@ -1,0 +1,16 @@
+proc 0 sent     Message{chain_id=0, acc_count=1, acc=32} to 0
+proc 0 recieved Message{chain_id=0, acc_count=1, acc=32} from 0
+proc 0 added 54 to acc=32
+proc 0 sent     Message{chain_id=0, acc_count=2, acc=86} to 1
+proc 1 sent     Message{chain_id=1, acc_count=1, acc=81} to 1
+proc 1 recieved Message{chain_id=1, acc_count=1, acc=81} from 1
+proc 1 added 0 to acc=81
+proc 1 sent     Message{chain_id=1, acc_count=2, acc=81} to 1
+proc 1 recieved Message{chain_id=1, acc_count=2, acc=81} from 1
+proc 1 added 89 to acc=81
+chain 1 sum=170
+proc 0 recieved Message{chain_id=1, acc_count=3, acc=170} from 1
+proc 1 recieved Message{chain_id=0, acc_count=2, acc=86} from 0
+proc 1 added 52 to acc=86
+chain 0 sum=138
+proc 0 recieved Message{chain_id=0, acc_count=3, acc=138} from 1
