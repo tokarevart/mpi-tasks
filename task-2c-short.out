@@ -1,8 +1,0 @@
-proc 1 sent     Message{chain_id=1, acc_count=1, acc=81} to 0
-proc 0 sent     Message{chain_id=0, acc_count=1, acc=32} to 1
-proc 0 recieved Message{chain_id=1, acc_count=1, acc=81} from 1
-proc 1 recieved Message{chain_id=0, acc_count=1, acc=32} from 0
-proc 1 added 59 to acc=32
-chain 0 sum=91
-proc 0 added 12 to acc=81
-chain 1 sum=93
