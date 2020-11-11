@@ -1,0 +1,8 @@
+[allreduce]        seq sum=54.682481
+[allreduce] proc 0 par sum=54.682481
+[reduce]           seq sum=54.682481
+[allreduce] proc 1 par sum=54.682481
+[allreduce] proc 2 par sum=54.682481
+[reduce]    proc 2 par sum=54.682481
+[reduce]    proc 0 par sum=54.682481
+[reduce]    proc 1 par sum=54.682481
