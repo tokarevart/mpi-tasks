@@ -101,7 +101,7 @@ void run_alltoall(int comm_rank, int comm_size, int n) {
 }
 
 int main(int argc, char** argv) {
-    int n = 10;
+    int n = 100;
 
     int comm_rank, comm_size;
     MPI_Init(&argc, &argv);
