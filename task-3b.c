@@ -5,8 +5,7 @@
 #include <mpi.h>
 
 double random() {
-    static double inv_rand_max = 1.0 / RAND_MAX;
-    return inv_rand_max * rand();
+    return rand() / (double)RAND_MAX;
 }
 
 void fill_with_randoms(double* nums, int size) {

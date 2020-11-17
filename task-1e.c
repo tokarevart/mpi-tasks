@@ -13,8 +13,7 @@ int min_int(int left, int right) {
 }
 
 double random() {
-    static double inv_half_rand_max = 2.0 / RAND_MAX;
-    return inv_half_rand_max * rand() - 1.0;
+    return rand() * 2.0 / RAND_MAX - 1.0;
 }
 
 void fill_with_randoms(double* nums, int size) {
